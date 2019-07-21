@@ -13,13 +13,17 @@ export default new Vuex.Store({
 
   },
   actions: {
-    authenticat(context) {
+    authenticate(context) {
       return axios.get('https://todoist.com/oauth/authorize', {
         params: {
           "client_id": clientId,
           "scope": "data:read",
           "state": state
         }
+      }).then(result => {
+        console.log(result);
+      }).catch(err => {
+        console.log(err);
       })
     }
   }

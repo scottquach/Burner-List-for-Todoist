@@ -2,11 +2,12 @@
   <div class="home">
     <!-- <img alt="Vue logo" src="../assets/logo.png" /> -->
     <!-- <HelloWorld msg="Welcome to Your Vue.js App" /> -->
+
     <div class="burners">
       <burner-list type="front"></burner-list>
       <div class="flex-col">
-        <burner-list type="back"></burner-list>
-        <burner-list type="misc"></burner-list>
+        <burner-list type="back" style="flex: 1;"></burner-list>
+        <burner-list type="misc" style="flex:1;"></burner-list>
       </div>
     </div>
 
@@ -46,6 +47,7 @@ export default {
 }
 
 .burners {
+  padding-top: 5rem;
   display: flex;
   flex-direction: row;
   justify-content: space-around;

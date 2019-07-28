@@ -1,11 +1,15 @@
 <template>
   <div class="burner-list">
     <h1>{{ header }}</h1>
-    <draggable v-model="items" group="type">
-      <transition-group>
-        <task-item v-for="item in items" :key="item.id" :item="item"></task-item>
-      </transition-group>
-    </draggable>
+    <v-list rounded color="#fafafa">
+      <v-list-item-group class="burner-list__items">
+        <draggable v-model="items" group="type">
+          <transition-group>
+            <task-item v-for="item in items" :key="item.id" :item="item"></task-item>
+          </transition-group>
+        </draggable>
+      </v-list-item-group>
+    </v-list>
   </div>
 </template>
 <script>
@@ -73,5 +77,9 @@ export default {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
+}
+
+.burner-list__items {
+  width: 15rem;
 }
 </style>

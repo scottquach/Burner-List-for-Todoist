@@ -29,6 +29,16 @@
   color: #42b983;
 }
 
+.flex-row {
+  display: flex;
+  flex-direction: row;
+}
+
+.flex-col {
+  display: flex;
+  flex-direction: column;
+}
+
 body {
   padding: 0px !important;
   margin: 0px !important;

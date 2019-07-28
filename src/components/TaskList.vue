@@ -1,7 +1,7 @@
 <template>
   <div class="task-list">
     <h1>Todays tasks</h1>
-    <draggable v-model="allTasks">
+    <draggable v-model="allTasks" group="type">
       <transition-group>
         <task-item v-for="item in allTasks" :key="item.id" :item="item"></task-item>
       </transition-group>

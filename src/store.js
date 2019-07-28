@@ -9,7 +9,29 @@ export default new Vuex.Store({
   state: {
     allTasks: [],
     allProjects: [],
-    todaysTasks: []
+    todaysTasks: [],
+    frontBurnerTasks: [
+      {
+        id: '1',
+        content: 'test1'
+      },
+      {
+        id: '4',
+        content: 'test4'
+      }
+    ],
+    backBurnerTasks: [
+      {
+        id: '3',
+        content: 'test3'
+      }
+    ],
+    miscBurnerTasks: [
+      {
+        id: '2',
+        content: 'test2'
+      }
+    ]
   },
   mutations: {
     appendAllTasks(state, newTasks) {
@@ -23,6 +45,15 @@ export default new Vuex.Store({
     },
     updateTodaysTasks(state, newTasks) {
       state.todaysTasks = newTasks;
+    },
+    updateFrontBurnerTasks(state, newTasks) {
+      state.frontBurnerTasks = newTasks;
+    },
+    updateBackBurnerTasks(state, newTasks) {
+      state.backBurnerTasks = newTasks;
+    },
+    updateMiscBurnerTasks(state, newTasks) {
+      state.miscBurnerTasks = newTasks;
     }
   },
   getters: {
@@ -31,6 +62,15 @@ export default new Vuex.Store({
     },
     todaysTasks(state) {
       return state.todaysTasks;
+    },
+    frontBurnerTasks(state) {
+      return state.frontBurnerTasks;
+    },
+    backBurnerTasks(state) {
+      return state.backBurnerTasks;
+    },
+    miscBurnerTasks(state) {
+      return state.miscBurnerTasks;
     }
   },
   actions: {
@@ -45,7 +85,7 @@ export default new Vuex.Store({
         })
         .then(result => {
           console.log(result);
-          context.commit('')
+          context.commit('');
         })
         .catch(err => {
           console.log(err);
@@ -60,7 +100,10 @@ export default new Vuex.Store({
         })
         .then(result => {
           console.log(result);
-          context.commit('updateTodaysTasks', result.data.filter(task => task.due));
+          context.commit(
+            'updateTodaysTasks',
+            result.data.filter(task => task.due)
+          );
         });
     },
     fetchAllTasks(context) {

@@ -2,20 +2,28 @@
   <div class="home">
     <!-- <img alt="Vue logo" src="../assets/logo.png" /> -->
     <!-- <HelloWorld msg="Welcome to Your Vue.js App" /> -->
+    <div class="burners">
+      <burner-list type="front"></burner-list>
+      <div class="flex-col">
+        <burner-list type="back"></burner-list>
+        <burner-list type="misc"></burner-list>
+      </div>
+    </div>
+
     <task-list class="task-list"></task-list>
   </div>
 </template>
 
 <script>
 // @ is an alias to /src
-import HelloWorld from "@/components/HelloWorld.vue";
 import TaskList from "@/components/TaskList.vue";
+import BurnerList from "@/components/BurnerList.vue";
 
 export default {
   name: "home",
   components: {
-    HelloWorld,
-    TaskList
+    TaskList,
+    BurnerList
   },
   mounted: function() {
     this.$store.dispatch("fetchTodaysTasks");
@@ -35,5 +43,12 @@ export default {
   align-items: flex-start;
   width: 25rem;
   margin-left: auto;
+}
+
+.burners {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  width: 100%;
 }
 </style>

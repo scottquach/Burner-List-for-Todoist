@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="burner-list">
     <h1>{{ header }}</h1>
     <draggable v-model="items" group="type">
       <transition-group>
@@ -69,4 +69,9 @@ export default {
 };
 </script>
 <style scoped>
+.burner-list {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
 </style>

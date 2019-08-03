@@ -1,9 +1,9 @@
 <template>
   <!-- <div> -->
   <v-list-item class="item">
-    <v-list-item-icon>
+    <!-- <v-list-item-icon>
       <div :style="priority"></div>
-    </v-list-item-icon>
+    </v-list-item-icon>-->
     <div>{{ item.content }}</div>
   </v-list-item>
   <!-- <v-divider></v-divider> -->

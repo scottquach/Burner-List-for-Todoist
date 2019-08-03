@@ -1,6 +1,7 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
 import axios from 'axios';
+import * as uuidv4 from 'uuid/v4';
 import { clientId, state, devToken } from './environment';
 
 Vue.use(Vuex);
@@ -35,10 +36,7 @@ export default new Vuex.Store({
   },
   mutations: {
     appendAllTasks(state, newTasks) {
-      console.log(newTasks);
-      console.log(state);
       state.allTasks.push(...newTasks);
-      console.log(state);
     },
     appendAllProjects(state, newProjects) {
       state.allProjects.concat(newProjects);
@@ -91,6 +89,44 @@ export default new Vuex.Store({
           console.log(err);
         });
     },
+    async createBurnerLabels(context) {
+      const labelsStatus = {
+        Front_Burner: false,
+        Back_Burner: false,
+        Misc_Burner: false
+      };
+      const tasks = await axios.get('https://api.todoist.com/rest/v1/labels', {
+        headers: {
+          Authorization: `Bearer ${devToken}`
+        }
+      });
+      tasks.data.forEach(label => {
+        if (labelsStatus.hasOwnProperty(label.name)) {
+          labelsStatus[label.name] = true;
+        }
+      });
+      Object.keys(labelsStatus).forEach(
+        async label => {
+          if (!labelsStatus[label]) {
+            await axios.post(
+              'https://api.todoist.com/rest/v1/labels',
+              {
+                name: label
+              },
+              {
+                headers: {
+                  Authorization: `Bearer ${devToken}`,
+                  'Content-Type': 'application/json',
+                  'X-Request-Id': uuidv4()
+                }
+              }
+            );
+          }
+        }
+      );
+      // console.log(labelsStatus);
+      // console.log(tasks);
+    },
     fetchTodaysTasks(context) {
       return axios
         .get('https://api.todoist.com/rest/v1/tasks', {
@@ -128,6 +164,8 @@ export default new Vuex.Store({
         .then(result => {
           console.log(result);
         });
-    }
+    },
+    addLabelToTask(context, {}) {},
+    removeLabelFromTask(context) {}
   }
 });

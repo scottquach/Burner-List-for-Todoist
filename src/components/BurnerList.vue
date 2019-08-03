@@ -3,7 +3,7 @@
     <h1>{{ header }}</h1>
     <v-list rounded color="#fafafa">
       <v-list-item-group class="burner-list__items">
-        <draggable v-model="items" group="type">
+        <draggable v-model="items" group="type" @change="change($event)">
           <transition-group>
             <task-item v-for="item in items" :key="item.id" :item="item"></task-item>
           </transition-group>
@@ -23,6 +23,24 @@ export default {
   },
   props: {
     type: String
+  },
+  methods: {
+    change: function(event) {
+      console.log(event);
+      if (event.added) {
+        console.log("added");
+        this.$store.dispatch("addLabelToTask", {
+          task: event.element,
+          burnerList: this.type
+        });
+      } else if (event.removed) {
+        console.log("removed");
+        this.$store.dispatch("removeLabelFromTask", {
+          task: event.element,
+          burnerList: this.type
+        });
+      }
+    }
   },
   computed: {
     header: function() {
@@ -53,7 +71,7 @@ export default {
         }
       },
       set(value) {
-        console.log(value);
+        // console.log(value);
         switch (this.type) {
           case "front":
             this.$store.commit("updateFrontBurnerTasks", value);

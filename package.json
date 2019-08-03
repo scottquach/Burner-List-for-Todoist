@@ -12,6 +12,7 @@
     "core-js": "^2.6.5",
     "moment": "^2.24.0",
     "sass-loader": "^7.1.0",
+    "uuid": "^3.3.2",
     "vue": "^2.6.10",
     "vue-router": "^3.0.3",
     "vuedraggable": "^2.23.0",

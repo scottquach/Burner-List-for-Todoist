@@ -28,6 +28,7 @@ export default {
   },
   mounted: function() {
     this.$store.dispatch("fetchTodaysTasks");
+    this.$store.dispatch("createBurnerLabels");
   }
 };
 </script>

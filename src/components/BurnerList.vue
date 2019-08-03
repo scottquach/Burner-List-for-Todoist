@@ -28,13 +28,11 @@ export default {
     change: function(event) {
       console.log(event);
       if (event.added) {
-        console.log("added");
         this.$store.dispatch("addLabelToTask", {
           task: event.element,
           burnerList: this.type
         });
       } else if (event.removed) {
-        console.log("removed");
         this.$store.dispatch("removeLabelFromTask", {
           task: event.element,
           burnerList: this.type

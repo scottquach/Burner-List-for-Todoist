@@ -11,6 +11,7 @@ export default new Vuex.Store({
     allTasks: [],
     allProjects: [],
     todaysTasks: [],
+    labelIds: {},
     frontBurnerTasks: [
       {
         id: '1',
@@ -52,6 +53,9 @@ export default new Vuex.Store({
     },
     updateMiscBurnerTasks(state, newTasks) {
       state.miscBurnerTasks = newTasks;
+    },
+    updateLabelIds(state, labelIds) {
+      state.labelIds = labelIds;
     }
   },
   getters: {
@@ -89,43 +93,65 @@ export default new Vuex.Store({
           console.log(err);
         });
     },
-    async createBurnerLabels(context) {
+    async configureBurnerLabels(context) {
       const labelsStatus = {
         Front_Burner: false,
         Back_Burner: false,
         Misc_Burner: false
       };
-      const tasks = await axios.get('https://api.todoist.com/rest/v1/labels', {
+      const labels = await axios.get('https://api.todoist.com/rest/v1/labels', {
         headers: {
           Authorization: `Bearer ${devToken}`
         }
       });
-      tasks.data.forEach(label => {
+      labels.data.forEach(label => {
         if (labelsStatus.hasOwnProperty(label.name)) {
           labelsStatus[label.name] = true;
         }
       });
-      Object.keys(labelsStatus).forEach(
-        async label => {
-          if (!labelsStatus[label]) {
-            await axios.post(
-              'https://api.todoist.com/rest/v1/labels',
-              {
-                name: label
-              },
-              {
-                headers: {
-                  Authorization: `Bearer ${devToken}`,
-                  'Content-Type': 'application/json',
-                  'X-Request-Id': uuidv4()
-                }
+      const promises = [];
+      Object.keys(labelsStatus).forEach(label => {
+        if (!labelsStatus[label]) {
+          const promise = axios.post(
+            'https://api.todoist.com/rest/v1/labels',
+            {
+              name: label
+            },
+            {
+              headers: {
+                Authorization: `Bearer ${devToken}`,
+                'Content-Type': 'application/json',
+                'X-Request-Id': uuidv4()
               }
-            );
-          }
+            }
+          );
+          promises.push(promise);
         }
-      );
-      // console.log(labelsStatus);
-      // console.log(tasks);
+      });
+      const result = await Promise.all(promises);
+      console.log(result);
+      if (result.length > 0) {
+        const configuredLabels = await axios.get(
+          'https://api.todoist.com/rest/v1/labels',
+          {
+            headers: {
+              Authorization: `Bearer ${devToken}`
+            }
+          }
+        );
+        console.log('configured', configuredLabels);
+        const labelIdMap = configuredLabels.data.reduce((obj, label) => {
+          obj[label.name] = label.id;
+          return obj;
+        }, {});
+        context.commit('updateLabelIds', labelIdMap);
+      } else {
+        const labelIdMap = labels.data.reduce((obj, label) => {
+          obj[label.name] = label.id;
+          return obj;
+        }, {});
+        context.commit('updateLabelIds', labelIdMap);
+      }
     },
     fetchTodaysTasks(context) {
       return axios
@@ -165,7 +191,11 @@ export default new Vuex.Store({
           console.log(result);
         });
     },
-    addLabelToTask(context, {}) {},
-    removeLabelFromTask(context) {}
+    addLabelToTask(context, { task, burnerList }) {
+      console.log('adding', task, burnerList);
+    },
+    removeLabelFromTask(context, { task, burnerList }) {
+      console.log('removing', task, burnerList);
+    }
   }
 });

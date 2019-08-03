@@ -4,10 +4,10 @@
     <!-- <HelloWorld msg="Welcome to Your Vue.js App" /> -->
 
     <div class="burners">
-      <burner-list type="front"></burner-list>
+      <burner-list type="Front_Burner"></burner-list>
       <div class="flex-col">
-        <burner-list type="back" style="flex: 1;"></burner-list>
-        <burner-list type="misc" style="flex:1;"></burner-list>
+        <burner-list type="Back_Burner" style="flex: 1;"></burner-list>
+        <burner-list type="Misc_Burner" style="flex:1;"></burner-list>
       </div>
     </div>
 

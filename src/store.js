@@ -73,6 +73,9 @@ export default new Vuex.Store({
     },
     miscBurnerTasks(state) {
       return state.miscBurnerTasks;
+    },
+    labelIds(state) {
+      return state.labelIds;
     }
   },
   actions: {
@@ -191,11 +194,32 @@ export default new Vuex.Store({
           console.log(result);
         });
     },
-    addLabelToTask(context, { task, burnerList }) {
+    switchBurnerLabel(context, { task, burnerList }) {
       console.log('adding', task, burnerList);
-    },
-    removeLabelFromTask(context, { task, burnerList }) {
-      console.log('removing', task, burnerList);
+      const labelIdMap = context.getters.labelIds;
+      const labels = [...task.label_ids].filter(
+        labelId =>
+          labelId !== labelIdMap['Front_Burner'] ||
+          labelId !== labelIdMap['Back_Burner'] ||
+          labelId !== labelIdMap['Mixc_Burner']
+      );
+      labels.push(labelIdMap[burnerList]);
+      return axios
+        .post(
+          `https://api.todoist.com/rest/v1/tasks/${task.id}`,
+          {
+            label_ids: labels
+          },
+          {
+            headers: {
+              Authorization: `Bearer ${devToken}`,
+              'Content-Type': 'application/json',
+              'X-Request-Id': uuidv4()
+            }
+          }
+        )
+        .then(console.log)
+        .catch(console.log);
     }
   }
 });

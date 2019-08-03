@@ -28,13 +28,8 @@ export default {
     change: function(event) {
       console.log(event);
       if (event.added) {
-        this.$store.dispatch("addLabelToTask", {
-          task: event.element,
-          burnerList: this.type
-        });
-      } else if (event.removed) {
-        this.$store.dispatch("removeLabelFromTask", {
-          task: event.element,
+        this.$store.dispatch("switchBurnerLabel", {
+          task: event.added.element,
           burnerList: this.type
         });
       }
@@ -43,11 +38,11 @@ export default {
   computed: {
     header: function() {
       switch (this.type) {
-        case "front":
+        case "Front_Burner":
           return "Front burner";
-        case "back":
+        case "Back_Burner":
           return "Back burner";
-        case "misc":
+        case "Misc_Burner":
           return "Misc burner";
         default:
           console.log("burner list didn't match a type");
@@ -57,11 +52,11 @@ export default {
     items: {
       get() {
         switch (this.type) {
-          case "front":
+          case "Front_Burner":
             return this.$store.getters.frontBurnerTasks;
-          case "back":
+          case "Back_Burner":
             return this.$store.getters.backBurnerTasks;
-          case "misc":
+          case "Misc_Burner":
             return this.$store.getters.miscBurnerTasks;
           default:
             console.log("burner list didn't match a type");
@@ -71,13 +66,13 @@ export default {
       set(value) {
         // console.log(value);
         switch (this.type) {
-          case "front":
+          case "Front_Burner":
             this.$store.commit("updateFrontBurnerTasks", value);
             break;
-          case "back":
+          case "Back_Burner":
             this.$store.commit("updateBackBurnerTasks", value);
             break;
-          case "misc":
+          case "Misc_Burner":
             this.$store.commit("updateMiscBurnerTasks", value);
             break;
           default:

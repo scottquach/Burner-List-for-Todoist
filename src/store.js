@@ -11,39 +11,44 @@ export default new Vuex.Store({
     allTasks: [],
     allProjects: [],
     todaysTasks: [],
-    labelIds: {},
-    frontBurnerTasks: [
-      {
-        id: '1',
-        content: 'test1'
-      },
-      {
-        id: '4',
-        content: 'test4'
-      }
-    ],
-    backBurnerTasks: [
-      {
-        id: '3',
-        content: 'test3'
-      }
-    ],
-    miscBurnerTasks: [
-      {
-        id: '2',
-        content: 'test2'
-      }
-    ]
+    frontBurnerTasks: [],
+    backBurnerTasks: [],
+    miscBurnerTasks: [],
+    labelIds: {}
   },
   mutations: {
-    appendAllTasks(state, newTasks) {
-      state.allTasks.push(...newTasks);
+    updateAllTasks(state, newTasks) {
+      state.allTasks = newTasks;
     },
     appendAllProjects(state, newProjects) {
       state.allProjects.concat(newProjects);
     },
     updateTodaysTasks(state, newTasks) {
-      state.todaysTasks = newTasks;
+      state.todaysTasks = newTasks.filter(
+        task =>
+          task.due &&
+          !task.label_ids.includes(state.labelIds['Front_Burner']) &&
+          !task.label_ids.includes(state.labelIds['Back_Burner']) &&
+          !task.label_ids.includes(state.labelIds['Misc_Burner'])
+      );
+    },
+    setupFrontBurnerTasks(state, newTasks) {
+      state.frontBurnerTasks = newTasks.filter(
+        task =>
+          task.due && task.label_ids.includes(state.labelIds['Front_Burner'])
+      );
+    },
+    setupBackBurnerTasks(state, newTasks) {
+      state.backBurnerTasks = newTasks.filter(
+        task =>
+          task.due && task.label_ids.includes(state.labelIds['Back_Burner'])
+      );
+    },
+    setupMiscBurnerTasks(state, newTasks) {
+      state.miscBurnerTasks = newTasks.filter(
+        task =>
+          task.due && task.label_ids.includes(state.labelIds['Misc_Burner'])
+      );
     },
     updateFrontBurnerTasks(state, newTasks) {
       state.frontBurnerTasks = newTasks;
@@ -56,6 +61,10 @@ export default new Vuex.Store({
     },
     updateLabelIds(state, labelIds) {
       state.labelIds = labelIds;
+    },
+    updateTaskLabels(state, { task, labels }) {
+      const itemIndex = state.allTasks.findIndex(item => item.id === task.id);
+      state.allTasks[itemIndex].label_ids = labels;
     }
   },
   getters: {
@@ -165,10 +174,11 @@ export default new Vuex.Store({
         })
         .then(result => {
           console.log(result);
-          context.commit(
-            'updateTodaysTasks',
-            result.data.filter(task => task.due)
-          );
+          context.commit('updateTodaysTasks', result.data);
+          context.commit('setupFrontBurnerTasks', result.data);
+          context.commit('setupBackBurnerTasks', result.data);
+          context.commit('setupMiscBurnerTasks', result.data);
+          context.commit('updateAllTasks', result.data);
         });
     },
     fetchAllTasks(context) {
@@ -180,7 +190,7 @@ export default new Vuex.Store({
         })
         .then(result => {
           console.log(result);
-          context.commit('appendAllTasks', result.data);
+          context.commit('updateAllTasks', result.data);
         });
     },
     fetchAllProjects(context) {
@@ -201,8 +211,13 @@ export default new Vuex.Store({
         labelId =>
           labelId !== labelIdMap['Front_Burner'] ||
           labelId !== labelIdMap['Back_Burner'] ||
-          labelId !== labelIdMap['Mixc_Burner']
+          labelId !== labelIdMap['Misc_Burner']
       );
+      console.log(labels);
+      context.commit('updateTaskLabels', {
+        task,
+        labels
+      });
       labels.push(labelIdMap[burnerList]);
       return axios
         .post(

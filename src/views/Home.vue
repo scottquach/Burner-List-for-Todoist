@@ -27,8 +27,8 @@ export default {
     BurnerList
   },
   mounted: function() {
-    this.$store.dispatch("fetchTodaysTasks");
     this.$store.dispatch("configureBurnerLabels");
+    this.$store.dispatch("fetchTodaysTasks");
   }
 };
 </script>

@@ -3,7 +3,12 @@
     <h1>{{ header }}</h1>
     <v-list rounded color="#fafafa">
       <v-list-item-group class="burner-list__items">
-        <draggable v-model="items" group="type" @change="change($event)">
+        <draggable
+          v-model="items"
+          :emptyInsertThreshold="100"
+          group="type"
+          @change="change($event)"
+        >
           <transition-group>
             <task-item v-for="item in items" :key="item.id" :item="item"></task-item>
           </transition-group>
@@ -26,7 +31,7 @@ export default {
   },
   methods: {
     change: function(event) {
-      console.log(event);
+      // console.log(event);
       if (event.added) {
         this.$store.dispatch("switchBurnerLabel", {
           task: event.added.element,
@@ -92,5 +97,6 @@ export default {
 
 .burner-list__items {
   width: 15rem;
+  min-height: 5rem;
 }
 </style>

@@ -3,7 +3,7 @@
     <h1>Todays tasks</h1>
     <v-list rounded color="#fafafa">
       <v-list-item-group>
-        <draggable v-model="allTasks" group="type">
+        <draggable v-model="allTasks" group="type" @change="change($event)">
           <transition-group>
             <task-item v-for="item in allTasks" :key="item.id" :item="item"></task-item>
           </transition-group>
@@ -20,6 +20,15 @@ export default {
   components: {
     draggable,
     TaskItem
+  },
+  methods: {
+    change: function(event) {
+      if (event.added) {
+        this.$store.dispatch("returnItemToToday", {
+          task: event.added.element
+        });
+      }
+    }
   },
   computed: {
     allTasks: {

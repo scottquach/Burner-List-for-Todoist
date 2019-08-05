@@ -221,6 +221,37 @@ export default new Vuex.Store({
         task,
         labels
       });
+
+      return axios
+        .post(
+          `https://api.todoist.com/rest/v1/tasks/${task.id}`,
+          {
+            label_ids: labels
+          },
+          {
+            headers: {
+              Authorization: `Bearer ${devToken}`,
+              'Content-Type': 'application/json',
+              'X-Request-Id': uuidv4()
+            }
+          }
+        )
+        .then(console.log)
+        .catch(console.log);
+    },
+    returnItemToToday(context, { task }) {
+      const labelIdMap = context.getters.labelIds;
+      const labels = [...task.label_ids].filter(
+        labelId =>
+          labelId !== labelIdMap['Front_Burner'] &&
+          labelId !== labelIdMap['Back_Burner'] &&
+          labelId !== labelIdMap['Misc_Burner']
+      );
+      context.commit('updateTaskLabels', {
+        task,
+        labels
+      });
+
       return axios
         .post(
           `https://api.todoist.com/rest/v1/tasks/${task.id}`,

@@ -60,6 +60,7 @@ export default new Vuex.Store({
       state.miscBurnerTasks = newTasks;
     },
     updateLabelIds(state, labelIds) {
+      console.log(labelIds);
       state.labelIds = labelIds;
     },
     updateTaskLabels(state, { task, labels }) {
@@ -209,16 +210,17 @@ export default new Vuex.Store({
       const labelIdMap = context.getters.labelIds;
       const labels = [...task.label_ids].filter(
         labelId =>
-          labelId !== labelIdMap['Front_Burner'] ||
-          labelId !== labelIdMap['Back_Burner'] ||
+          labelId !== labelIdMap['Front_Burner'] &&
+          labelId !== labelIdMap['Back_Burner'] &&
           labelId !== labelIdMap['Misc_Burner']
       );
+
+      labels.push(labelIdMap[burnerList]);
       console.log(labels);
       context.commit('updateTaskLabels', {
         task,
         labels
       });
-      labels.push(labelIdMap[burnerList]);
       return axios
         .post(
           `https://api.todoist.com/rest/v1/tasks/${task.id}`,

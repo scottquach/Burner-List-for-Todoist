@@ -2,7 +2,9 @@ import Vue from 'vue';
 import Vuex from 'vuex';
 import axios from 'axios';
 import * as uuidv4 from 'uuid/v4';
-import { clientId, state, devToken } from './environment';
+// import { clientId, state, devToken } from './environment';
+const clientId = 'fa66c46a9121421eb22d7911dcedfbcf';
+const state = uuidv4();
 
 Vue.use(Vuex);
 
@@ -14,7 +16,8 @@ export default new Vuex.Store({
     frontBurnerTasks: [],
     backBurnerTasks: [],
     miscBurnerTasks: [],
-    labelIds: {}
+    labelIds: {},
+    authToken: ''
   },
   mutations: {
     updateAllTasks(state, newTasks) {
@@ -86,6 +89,9 @@ export default new Vuex.Store({
     },
     labelIds(state) {
       return state.labelIds;
+    },
+    authToken(state) {
+      return state.authToken;
     }
   },
   actions: {
@@ -107,6 +113,8 @@ export default new Vuex.Store({
         });
     },
     async configureBurnerLabels(context) {
+      const authToken = context.getters.authToken;
+
       const labelsStatus = {
         Front_Burner: false,
         Back_Burner: false,
@@ -114,7 +122,7 @@ export default new Vuex.Store({
       };
       const labels = await axios.get('https://api.todoist.com/rest/v1/labels', {
         headers: {
-          Authorization: `Bearer ${devToken}`
+          Authorization: `Bearer ${authToken}`
         }
       });
       labels.data.forEach(label => {
@@ -132,7 +140,7 @@ export default new Vuex.Store({
             },
             {
               headers: {
-                Authorization: `Bearer ${devToken}`,
+                Authorization: `Bearer ${authToken}`,
                 'Content-Type': 'application/json',
                 'X-Request-Id': uuidv4()
               }
@@ -148,7 +156,7 @@ export default new Vuex.Store({
           'https://api.todoist.com/rest/v1/labels',
           {
             headers: {
-              Authorization: `Bearer ${devToken}`
+              Authorization: `Bearer ${authToken}`
             }
           }
         );
@@ -167,10 +175,12 @@ export default new Vuex.Store({
       }
     },
     fetchTodaysTasks(context) {
+      const authToken = context.getters.authToken;
+
       return axios
         .get('https://api.todoist.com/rest/v1/tasks', {
           headers: {
-            Authorization: `Bearer ${devToken}`
+            Authorization: `Bearer ${authToken}`
           }
         })
         .then(result => {
@@ -183,10 +193,12 @@ export default new Vuex.Store({
         });
     },
     fetchAllTasks(context) {
+      const authToken = context.getters.authToken;
+
       return axios
         .get('https://api.todoist.com/rest/v1/tasks', {
           headers: {
-            Authorization: `Bearer ${devToken}`
+            Authorization: `Bearer ${authToken}`
           }
         })
         .then(result => {
@@ -195,10 +207,12 @@ export default new Vuex.Store({
         });
     },
     fetchAllProjects(context) {
+      const authToken = context.getters.authToken;
+
       return axios
         .get('https://api.todoist.com/rest/v1/projects', {
           headers: {
-            Authorization: `Bearer ${devToken}`
+            Authorization: `Bearer ${authToken}`
           }
         })
         .then(result => {
@@ -206,6 +220,8 @@ export default new Vuex.Store({
         });
     },
     switchBurnerLabel(context, { task, burnerList }) {
+      const authToken = context.getters.authToken;
+
       console.log('adding', task, burnerList);
       const labelIdMap = context.getters.labelIds;
       const labels = [...task.label_ids].filter(
@@ -230,7 +246,7 @@ export default new Vuex.Store({
           },
           {
             headers: {
-              Authorization: `Bearer ${devToken}`,
+              Authorization: `Bearer ${authToken}`,
               'Content-Type': 'application/json',
               'X-Request-Id': uuidv4()
             }
@@ -240,6 +256,8 @@ export default new Vuex.Store({
         .catch(console.log);
     },
     returnItemToToday(context, { task }) {
+      const authToken = context.getters.authToken;
+
       const labelIdMap = context.getters.labelIds;
       const labels = [...task.label_ids].filter(
         labelId =>
@@ -260,7 +278,7 @@ export default new Vuex.Store({
           },
           {
             headers: {
-              Authorization: `Bearer ${devToken}`,
+              Authorization: `Bearer ${authToken}`,
               'Content-Type': 'application/json',
               'X-Request-Id': uuidv4()
             }

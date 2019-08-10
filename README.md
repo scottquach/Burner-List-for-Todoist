@@ -1,4 +1,5 @@
-# burner-list-for-todoist
+# Burner List for Todoist
+Use the day-to-day prioritization of a Burner List backed by the bigger picture organization of Todoist
 
 ## Project setup
 ```

@@ -1,6 +1,10 @@
 <template>
   <div class="task-list">
-    <h1>Todays tasks</h1>
+    <div style="display: flex; flex-direction: row;">
+      <img style="margin-right: 1rem;" class="icon--md" src="@/assets/sunrise.svg" />
+      <h1>Todays tasks</h1>
+    </div>
+
     <v-list rounded color="#fafafa">
       <v-list-item-group>
         <draggable v-model="allTasks" group="type" @change="change($event)">

@@ -1,6 +1,6 @@
 <template>
   <div class="burner-list">
-    <h1>{{ header }}</h1>
+    <h1 class="burner-list__header">{{ header }}</h1>
     <v-list rounded color="#fafafa">
       <v-list-item-group class="burner-list__items">
         <draggable
@@ -15,6 +15,7 @@
         </draggable>
       </v-list-item-group>
     </v-list>
+    <img class="icon--md" v-if="items.length === 0" src="@/assets/empty-box.svg" />
   </div>
 </template>
 <script>
@@ -93,6 +94,10 @@ export default {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
+}
+
+.burner-list__header {
+  /* background-color: #9ec0e6; */
 }
 
 .burner-list__items {

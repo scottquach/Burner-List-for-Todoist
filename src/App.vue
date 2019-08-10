@@ -10,7 +10,9 @@
 
 <style>
 #app {
-  font-family: "Avenir", Helvetica, Arial, sans-serif;
+  /* font-family: "Avenir", Helvetica, Arial, sans-serif; */
+  font-family: "Open Sans", sans-serif;
+
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
@@ -37,6 +39,16 @@
 .flex-col {
   display: flex;
   flex-direction: column;
+}
+
+.icon {
+  width: 25px;
+  height: 25px;
+}
+
+.icon--md {
+  width: 50px;
+  height: 50px;
 }
 
 body {

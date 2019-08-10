@@ -1,6 +1,9 @@
 <template>
-  <div>
-    <button @click="authenticate()"></button>
+  <div class="login">
+    <v-card class="login__card">
+      <h1>Burner List for Todoist</h1>
+      <v-btn @click="authenticate()">Todoist Login</v-btn>
+    </v-card>
   </div>
 </template>
 <script>
@@ -18,4 +21,16 @@ export default {
 </script>
 
 <style lang="scss">
+.login {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  width: 100%;
+}
+
+.login__card {
+  padding: 1.5rem;
+}
 </style>
+ 

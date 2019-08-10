@@ -1,17 +1,21 @@
 <template>
   <div class="home">
-    <!-- <img alt="Vue logo" src="../assets/logo.png" /> -->
-    <!-- <HelloWorld msg="Welcome to Your Vue.js App" /> -->
+    <!-- <v-app-bar color="deep-purple accent-4" dark>
+      <v-app-bar-nav-icon></v-app-bar-nav-icon>
 
-    <div class="burners">
-      <burner-list type="Front_Burner"></burner-list>
-      <div class="flex-col">
-        <burner-list type="Back_Burner" style="flex: 1;"></burner-list>
-        <burner-list type="Misc_Burner" style="flex:1;"></burner-list>
+      <v-toolbar-title>Burner List for Todoist</v-toolbar-title>
+    </v-app-bar>-->
+    <div class="home__content">
+      <div class="burners">
+        <burner-list type="Front_Burner"></burner-list>
+        <div class="flex-col">
+          <burner-list type="Back_Burner" style="flex: 1;"></burner-list>
+          <burner-list type="Misc_Burner" style="flex:1;"></burner-list>
+        </div>
       </div>
-    </div>
 
-    <task-list class="task-list"></task-list>
+      <task-list class="task-list"></task-list>
+    </div>
   </div>
 </template>
 
@@ -34,6 +38,11 @@ export default {
 </script>
 <style scoped>
 .home {
+  display: flex;
+  flex-direction: column;
+}
+
+.home__content {
   display: flex;
   flex-direction: row;
   width: 100%;

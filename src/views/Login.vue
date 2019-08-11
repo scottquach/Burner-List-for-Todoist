@@ -20,6 +20,7 @@ export default {
     if (this.$route.query.state && this.$route.query.code) {
       this.$store.commit("setAppState", this.$route.query.state);
       this.$store.commit("setAppCode", this.$route.query.code);
+      this.$store.dispatch("authenticate");
       this.$router.push({ name: "home" });
     }
     // this.$store.dispatch("authenticate");

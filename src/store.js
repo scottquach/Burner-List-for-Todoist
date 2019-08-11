@@ -4,7 +4,7 @@ import axios from 'axios';
 import * as uuidv4 from 'uuid/v4';
 // import { clientId, state, devToken } from './environment';
 const clientId = 'fa66c46a9121421eb22d7911dcedfbcf';
-const state = uuidv4();
+const clientSecret = 'ba2da4a7e7c24b9ea49d1e056316db3c';
 
 Vue.use(Vuex);
 
@@ -104,13 +104,13 @@ export default new Vuex.Store({
   },
   actions: {
     authenticate(context) {
+      const appCode = context.getters.appCode;
+
       return axios
-        .get('https://todoist.com/oauth/authorize', {
-          params: {
+        .post('https://todoist.com/oauth/access_token', {
             client_id: clientId,
-            scope: 'data:read',
-            state: state
-          }
+            client_secret: clientSecret,
+            code: appCode,
         })
         .then(result => {
           console.log(result);

@@ -17,9 +17,13 @@ const router = new Router({
       component: Login
     },
     {
-      path: '/',
+      path: '/home',
       name: 'home',
       component: Home
+    },
+    {
+      path: '/',
+      redirect: '/home'
     }
   ]
 });

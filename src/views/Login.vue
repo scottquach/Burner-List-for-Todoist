@@ -15,6 +15,7 @@ export default {
     }
   },
   mounted: function() {
+    console.log(this.$router);
     // this.$store.dispatch("authenticate");
   }
 };

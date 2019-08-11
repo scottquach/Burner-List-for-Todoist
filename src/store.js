@@ -17,6 +17,8 @@ export default new Vuex.Store({
     backBurnerTasks: [],
     miscBurnerTasks: [],
     labelIds: {},
+    appCode: '',
+    appState: '',
     authToken: ''
   },
   mutations: {
@@ -69,6 +71,12 @@ export default new Vuex.Store({
     updateTaskLabels(state, { task, labels }) {
       const itemIndex = state.allTasks.findIndex(item => item.id === task.id);
       state.allTasks[itemIndex].label_ids = labels;
+    },
+    setAppState(state, appState) {
+      state.appState = appState;
+    },
+    setAppCode(state, appCode) {
+      state.appCode = appCode;
     }
   },
   getters: {

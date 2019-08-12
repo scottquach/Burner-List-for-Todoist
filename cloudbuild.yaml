@@ -2,11 +2,11 @@ steps:
 - name: 'gcr.io/cloud-builders/npm'
   args: ['install']
 - name: 'gcr.io/cloud-builders/docker'
-  args: ['cd', 'functions']
+  args: ['run', 'cd', '/functions']
 - name: 'gcr.io/cloud-builders/npm'
   args: ['install']
 - name: 'gcr.io/cloud-builders/docker'
-  args: ['cd', '..']
+  args: ['run','cd', '..']
 - name: 'gcr.io/cloud-builders/npm'
   args: ['run', 'build']
 - name: 'gcr.io/$PROJECT_ID/firebase'

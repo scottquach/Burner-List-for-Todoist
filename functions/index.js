@@ -18,7 +18,7 @@ exports.authenticate = functions.https.onRequest((request, response) => {
     })
     .then(result => {
       console.log(result);
-        response.send(result);
+      response.send(result);
     })
     .catch(err => {
       console.log(err);

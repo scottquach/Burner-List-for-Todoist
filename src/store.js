@@ -96,6 +96,9 @@ export default new Vuex.Store({
     labelIds(state) {
       return state.labelIds;
     },
+    appCode(state) {
+      return state.appCode;
+    },
     authToken(state) {
       return state.authToken;
     }

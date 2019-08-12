@@ -3,8 +3,6 @@ import Vuex from 'vuex';
 import axios from 'axios';
 import * as uuidv4 from 'uuid/v4';
 // import { clientId, state, devToken } from './environment';
-const clientId = 'fa66c46a9121421eb22d7911dcedfbcf';
-const clientSecret = 'ba2da4a7e7c24b9ea49d1e056316db3c';
 
 Vue.use(Vuex);
 
@@ -106,15 +104,12 @@ export default new Vuex.Store({
     authenticate(context) {
       const appCode = context.getters.appCode;
 
-      return axios
-        .post('https://todoist.com/oauth/access_token', {
-            client_id: clientId,
-            client_secret: clientSecret,
-            code: appCode,
+      return axios.post('https://us-central1-burner-list-for-todoist.cloudfunctions.net/authenticate', {
+            appCode: appCode,
         })
         .then(result => {
           console.log(result);
-          context.commit('');
+          // context.commit('');
         })
         .catch(err => {
           console.log(err);

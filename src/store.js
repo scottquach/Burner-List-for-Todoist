@@ -75,6 +75,9 @@ export default new Vuex.Store({
     },
     setAppCode(state, appCode) {
       state.appCode = appCode;
+    },
+    setAuthToken(state, authToken) {
+      state.authToken = authToken;
     }
   },
   getters: {
@@ -112,10 +115,13 @@ export default new Vuex.Store({
         })
         .then(result => {
           console.log(result);
+          context.commit('authToken', result.data.access_token);
+          return true;
           // context.commit('');
         })
         .catch(err => {
           console.log(err);
+          return false;
         });
     },
     async configureBurnerLabels(context) {

@@ -10,6 +10,7 @@ const axios = require('axios');
 exports.authenticate = functions.https.onRequest((request, response) => {
   console.log(JSON.stringify(request.body));
   console.log(functions.config().todoist.clientsecret);
+  response.set('Access-Control-Allow-Origin', "*")
   axios
     .post('https://todoist.com/oauth/access_token', {
       client_id: functions.config().todoist.clientid,

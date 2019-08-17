@@ -2,9 +2,10 @@ import Vue from 'vue';
 import Vuex from 'vuex';
 import axios from 'axios';
 import * as uuidv4 from 'uuid/v4';
+import router from './router'
+
+
 // import { clientId, state, devToken } from './environment';
-const clientId = 'fa66c46a9121421eb22d7911dcedfbcf';
-const state = uuidv4();
 
 Vue.use(Vuex);
 
@@ -17,6 +18,8 @@ export default new Vuex.Store({
     backBurnerTasks: [],
     miscBurnerTasks: [],
     labelIds: {},
+    appCode: '',
+    appState: '',
     authToken: ''
   },
   mutations: {
@@ -69,6 +72,15 @@ export default new Vuex.Store({
     updateTaskLabels(state, { task, labels }) {
       const itemIndex = state.allTasks.findIndex(item => item.id === task.id);
       state.allTasks[itemIndex].label_ids = labels;
+    },
+    setAppState(state, appState) {
+      state.appState = appState;
+    },
+    setAppCode(state, appCode) {
+      state.appCode = appCode;
+    },
+    setAuthToken(state, authToken) {
+      state.authToken = authToken;
     }
   },
   getters: {
@@ -90,23 +102,25 @@ export default new Vuex.Store({
     labelIds(state) {
       return state.labelIds;
     },
+    appCode(state) {
+      return state.appCode;
+    },
     authToken(state) {
       return state.authToken;
     }
   },
   actions: {
     authenticate(context) {
-      return axios
-        .get('https://todoist.com/oauth/authorize', {
-          params: {
-            client_id: clientId,
-            scope: 'data:read',
-            state: state
-          }
+      const appCode = context.getters.appCode;
+
+      return axios.post('https://us-central1-burner-list-for-todoist.cloudfunctions.net/authenticate', {
+            appCode: appCode,
         })
         .then(result => {
           console.log(result);
-          context.commit('');
+          context.commit('setAuthToken', result.data.access_token);
+          console.log(context.getters.authToken);
+          router.push({ name: "home" });
         })
         .catch(err => {
           console.log(err);

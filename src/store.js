@@ -2,6 +2,9 @@ import Vue from 'vue';
 import Vuex from 'vuex';
 import axios from 'axios';
 import * as uuidv4 from 'uuid/v4';
+import router from './router'
+
+
 // import { clientId, state, devToken } from './environment';
 
 Vue.use(Vuex);
@@ -115,13 +118,12 @@ export default new Vuex.Store({
         })
         .then(result => {
           console.log(result);
-          context.commit('authToken', result.data.access_token);
-          return true;
-          // context.commit('');
+          context.commit('setAuthToken', result.data.access_token);
+          console.log(context.getters.authToken);
+          router.push({ name: "home" });
         })
         .catch(err => {
           console.log(err);
-          return false;
         });
     },
     async configureBurnerLabels(context) {

@@ -20,12 +20,7 @@ export default {
       console.log("setting app state and code");
       this.$store.commit("setAppState", this.$route.query.state);
       this.$store.commit("setAppCode", this.$route.query.code);
-      if (this.$store.dispatch("authenticate")) {
-        console.log("navigating to home");
-        this.$router.push({ name: "home" });
-      } else {
-        console.log("error authenticating");
-      }
+      this.$store.dispatch("authenticate");
     }
   }
 };

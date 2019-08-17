@@ -19,8 +19,9 @@ exports.authenticate = functions.https.onRequest((request, response) => {
       code: request.body.appCode
     })
     .then(result => {
-      console.log(result);
-      response.send(result);
+      console.log(result.config)
+      console.log(result.data);
+      response.send(result.data);
     })
     .catch(err => {
       console.log(err);

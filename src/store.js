@@ -1,7 +1,7 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
 import axios from 'axios';
-import * as uuidv4 from 'uuidv4';
+import * as uuidv4 from 'uuid/v4';
 import * as moment from 'moment';
 import router from './router'
 // import { clientId, state, devToken } from './environment';

@@ -32,7 +32,8 @@ export default new Vuex.Store({
       state.todaysTasks = newTasks.filter(
         task =>
           task.due &&
-          moment(task.due).isBefore(moment().add(1, 'day')) &&
+          moment(task.due.date).dayOfYear() <= (moment().dayOfYear()) &&
+          !task.completed &&
           !task.label_ids.includes(state.labelIds['Front_Burner']) &&
           !task.label_ids.includes(state.labelIds['Back_Burner']) &&
           !task.label_ids.includes(state.labelIds['Misc_Burner'])
@@ -42,7 +43,8 @@ export default new Vuex.Store({
       state.frontBurnerTasks = newTasks.filter(
         task =>
           task.due && 
-          moment(task.due).isBefore(moment().add(1, 'day')) &&
+          moment(task.due.date).dayOfYear() <= (moment().dayOfYear()) &&
+          !task.completed &&
           task.label_ids.includes(state.labelIds['Front_Burner'])
       );
     },
@@ -50,7 +52,8 @@ export default new Vuex.Store({
       state.backBurnerTasks = newTasks.filter(
         task =>
           task.due && 
-          moment(task.due).isBefore(moment().add(1, 'day')) &&
+          moment(task.due.date).dayOfYear() <= (moment().dayOfYear()) &&
+          !task.completed &&
           task.label_ids.includes(state.labelIds['Back_Burner'])
       );
     },
@@ -58,7 +61,8 @@ export default new Vuex.Store({
       state.miscBurnerTasks = newTasks.filter(
         task =>
           task.due && 
-          moment(task.due).isBefore(moment().add(1, 'day')) &&
+          moment(task.due.date).dayOfYear() <= (moment().dayOfYear()) &&
+          !task.completed &&
           task.label_ids.includes(state.labelIds['Misc_Burner'])
       );
     },

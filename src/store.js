@@ -1,10 +1,9 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
 import axios from 'axios';
-import * as uuidv4 from 'uuid/v4';
+import * as uuidv4 from 'uuidv4';
+import * as moment from 'moment';
 import router from './router'
-
-
 // import { clientId, state, devToken } from './environment';
 
 Vue.use(Vuex);
@@ -33,6 +32,7 @@ export default new Vuex.Store({
       state.todaysTasks = newTasks.filter(
         task =>
           task.due &&
+          moment(task.due).isBefore(moment().add(1, 'day')) &&
           !task.label_ids.includes(state.labelIds['Front_Burner']) &&
           !task.label_ids.includes(state.labelIds['Back_Burner']) &&
           !task.label_ids.includes(state.labelIds['Misc_Burner'])
@@ -41,19 +41,25 @@ export default new Vuex.Store({
     setupFrontBurnerTasks(state, newTasks) {
       state.frontBurnerTasks = newTasks.filter(
         task =>
-          task.due && task.label_ids.includes(state.labelIds['Front_Burner'])
+          task.due && 
+          moment(task.due).isBefore(moment().add(1, 'day')) &&
+          task.label_ids.includes(state.labelIds['Front_Burner'])
       );
     },
     setupBackBurnerTasks(state, newTasks) {
       state.backBurnerTasks = newTasks.filter(
         task =>
-          task.due && task.label_ids.includes(state.labelIds['Back_Burner'])
+          task.due && 
+          moment(task.due).isBefore(moment().add(1, 'day')) &&
+          task.label_ids.includes(state.labelIds['Back_Burner'])
       );
     },
     setupMiscBurnerTasks(state, newTasks) {
       state.miscBurnerTasks = newTasks.filter(
         task =>
-          task.due && task.label_ids.includes(state.labelIds['Misc_Burner'])
+          task.due && 
+          moment(task.due).isBefore(moment().add(1, 'day')) &&
+          task.label_ids.includes(state.labelIds['Misc_Burner'])
       );
     },
     updateFrontBurnerTasks(state, newTasks) {
@@ -117,9 +123,9 @@ export default new Vuex.Store({
             appCode: appCode,
         })
         .then(result => {
-          console.log(result);
+          // console.log(result);
           context.commit('setAuthToken', result.data.access_token);
-          console.log(context.getters.authToken);
+          // console.log(context.getters.authToken);
           router.push({ name: "home" });
         })
         .catch(err => {

@@ -17,7 +17,7 @@ export default {
   mounted: function() {
     console.log(this.$route.query);
     if (this.$route.query.state && this.$route.query.code) {
-      console.log("setting app state and code");
+      // console.log("setting app state and code");
       this.$store.commit("setAppState", this.$route.query.state);
       this.$store.commit("setAppCode", this.$route.query.code);
       this.$store.dispatch("authenticate");

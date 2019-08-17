@@ -28,8 +28,8 @@ const router = new Router({
 });
 
 router.beforeEach((to, from ,next) => {
-  console.log(to);
-  console.log(from);
+  // console.log(to);
+  // console.log(from);
   if (!store.getters.authToken && to.name !== 'login') {
     next('login');
   } else {

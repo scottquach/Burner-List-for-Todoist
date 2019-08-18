@@ -28,7 +28,7 @@ export default new Vuex.Store({
     appendAllProjects(state, newProjects) {
       state.allProjects.concat(newProjects);
     },
-    updateTodaysTasks(state, newTasks) {
+    setupTodaysTasks(state, newTasks) {
       state.todaysTasks = newTasks.filter(
         task =>
           task.due &&
@@ -65,6 +65,9 @@ export default new Vuex.Store({
           !task.completed &&
           task.label_ids.includes(state.labelIds['Misc_Burner'])
       );
+    },
+    updateTodaysTasks(state, newTasks) {
+      state.todaysTasks = newTasks;
     },
     updateFrontBurnerTasks(state, newTasks) {
       state.frontBurnerTasks = newTasks;
@@ -209,7 +212,7 @@ export default new Vuex.Store({
         })
         .then(result => {
           console.log(result);
-          context.commit('updateTodaysTasks', result.data);
+          context.commit('setupTodaysTasks', result.data);
           context.commit('setupFrontBurnerTasks', result.data);
           context.commit('setupBackBurnerTasks', result.data);
           context.commit('setupMiscBurnerTasks', result.data);

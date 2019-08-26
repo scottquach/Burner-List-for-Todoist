@@ -30,11 +30,8 @@ const router = new Router({
 router.beforeEach((to, from ,next) => {
   // console.log(to);
   // console.log(from);
-  document.cookie = `authToken=testing;`;
   if (!store.getters.authToken && to.name !== 'login') {
     const cachedAuthToken = document.cookie.replace(/(?:(?:^|.*;\s*)authToken\s*\=\s*([^;]*).*$)|^.*$/, "$1")
-    // console.log(cachedAuthToken);
-    // console.log(parts);
     if (cachedAuthToken.authToken) {
       store.commit('setAuthToken', cachedAuthToken);
       next();

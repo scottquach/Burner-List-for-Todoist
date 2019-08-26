@@ -33,7 +33,7 @@ router.beforeEach((to, from ,next) => {
   if (!store.getters.authToken && to.name !== 'login') {
     console.log(document.cookie);
     const cachedAuthToken = document.cookie.replace(/(?:(?:^|.*;\s*)authToken\s*\=\s*([^;]*).*$)|^.*$/, "$1")
-    if (cachedAuthToken.authToken) {
+    if (cachedAuthToken) {
       store.commit('setAuthToken', cachedAuthToken);
       next();
     } else {

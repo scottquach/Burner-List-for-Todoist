@@ -132,6 +132,7 @@ export default new Vuex.Store({
         .then(result => {
           // console.log(result);
           context.commit('setAuthToken', result.data.access_token);
+          document.cookie = `authToken=${result.data.access_token}; expires=${moment().add(30, 'days').utc()}`;
           // console.log(context.getters.authToken);
           router.push({ name: "home" });
         })

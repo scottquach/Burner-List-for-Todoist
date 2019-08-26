@@ -31,7 +31,14 @@ router.beforeEach((to, from ,next) => {
   // console.log(to);
   // console.log(from);
   if (!store.getters.authToken && to.name !== 'login') {
-    next('login');
+    const cachedAuthToken = document.cookie;
+    console.log(cachedAuthToken);
+    if (cachedAuthToken.authToken) {
+      store.commit('setAuthToken', cachedAuthToken);
+      next();
+    } else {
+      next('login');
+    }
   } else {
     next();
   }

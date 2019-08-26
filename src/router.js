@@ -31,6 +31,7 @@ router.beforeEach((to, from ,next) => {
   // console.log(to);
   // console.log(from);
   if (!store.getters.authToken && to.name !== 'login') {
+    console.log(document.cookie);
     const cachedAuthToken = document.cookie.replace(/(?:(?:^|.*;\s*)authToken\s*\=\s*([^;]*).*$)|^.*$/, "$1")
     if (cachedAuthToken.authToken) {
       store.commit('setAuthToken', cachedAuthToken);

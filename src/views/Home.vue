@@ -33,7 +33,7 @@ export default {
   mounted: function() {
     // console.log(this.$router);
     this.$store.dispatch("configureBurnerLabels");
-    this.$store.dispatch("fetchTodaysTasks");
+    this.$store.dispatch("fetchAllTasks");
   }
 };
 </script>

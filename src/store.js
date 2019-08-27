@@ -203,7 +203,7 @@ export default new Vuex.Store({
         context.commit('updateLabelIds', labelIdMap);
       }
     },
-    fetchTodaysTasks(context) {
+    fetchAllTasks(context) {
       const authToken = context.getters.authToken;
 
       return axios
@@ -218,20 +218,6 @@ export default new Vuex.Store({
           context.commit('setupFrontBurnerTasks', result.data);
           context.commit('setupBackBurnerTasks', result.data);
           context.commit('setupMiscBurnerTasks', result.data);
-          context.commit('updateAllTasks', result.data);
-        });
-    },
-    fetchAllTasks(context) {
-      const authToken = context.getters.authToken;
-
-      return axios
-        .get('https://api.todoist.com/rest/v1/tasks', {
-          headers: {
-            Authorization: `Bearer ${authToken}`
-          }
-        })
-        .then(result => {
-          console.log(result);
           context.commit('updateAllTasks', result.data);
         });
     },

@@ -101,7 +101,7 @@ export default {
 }
 
 .burner-list__items {
-  width: 15rem;
+  width: 25rem;
   min-height: 5rem;
 }
 </style>

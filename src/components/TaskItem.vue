@@ -56,6 +56,7 @@ export default {
   border-width: 5px;
   text-align: start;
   max-width: 100%;
+  text-overflow: ellipsis;
 }
 
 .dot {

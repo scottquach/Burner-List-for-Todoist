@@ -4,7 +4,7 @@
     <v-list-item-icon>
       <div :style="priority"></div>
     </v-list-item-icon>
-    <div>{{ item.content }}</div>
+    <div class="item__content">{{ item.content }}</div>
   </v-list-item>
   <!-- <v-divider></v-divider> -->
   <!-- </div> -->
@@ -56,6 +56,13 @@ export default {
   border-width: 5px;
   text-align: start;
   max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.item__content {
+  max-width: 100%;
+  overflow: hidden;
   text-overflow: ellipsis;
 }
 

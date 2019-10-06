@@ -247,7 +247,7 @@ export default new Vuex.Store({
       );
 
       labels.push(labelIdMap[burnerList]);
-      console.log(labels);
+      // console.log(labels);
       context.commit('updateTaskLabels', {
         task,
         labels
@@ -269,6 +269,9 @@ export default new Vuex.Store({
         )
         .then(console.log)
         .catch(console.log);
+    },
+    completeTask(context, {}) {
+      
     },
     returnItemToToday(context, { task }) {
       const authToken = context.getters.authToken;

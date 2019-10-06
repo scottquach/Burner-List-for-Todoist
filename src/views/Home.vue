@@ -1,10 +1,5 @@
 <template>
   <div class="home">
-    <!-- <v-app-bar color="deep-purple accent-4" dark>
-      <v-app-bar-nav-icon></v-app-bar-nav-icon>
-
-      <v-toolbar-title>Burner List for Todoist</v-toolbar-title>
-    </v-app-bar>-->
     <div class="home__content">
       <div class="burners">
         <burner-list type="Front_Burner"></burner-list>

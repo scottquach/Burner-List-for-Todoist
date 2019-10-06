@@ -1,30 +1,11 @@
 # Burner List for Todoist
 Use the day-to-day prioritization of a Burner List backed by the bigger picture organization of Todoist
 
-## Project setup
-```
-npm install
-```
+### How it works
 
-### Compiles and hot-reloads for development
-```
-npm run serve
-```
+No personal information is stored, Burner List for Todoist utilizes the Todoist api to manipulate the labels associated to tasks. These labels are how tasks are tracked about which burner list a task is placed into. This means that this is simply a UI built on the existing Todoist backend.
 
-### Compiles and minifies for production
-```
-npm run build
-```
-
-### Run your tests
-```
-npm run test
-```
-
-### Lints and fixes files
-```
-npm run lint
-```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+The lables used are as follows
+* Misc_Burner
+* Back_Burner
+* Front_Burner

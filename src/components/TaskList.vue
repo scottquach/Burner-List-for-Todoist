@@ -1,8 +1,19 @@
 <template>
   <div class="task-list">
-    <div style="display: flex; flex-direction: row;">
+    <div style="display: flex; flex-direction: row; align-items: center;">
       <img style="margin-right: 1rem;" class="icon--md" src="@/assets/sunrise.svg" />
-      <h1>Todays tasks</h1>
+      <h2>Todays tasks</h2>
+      <v-tooltip bottom>
+        <template v-slot:activator="{ on }">
+          <img
+            style="width: 20px; height: 20px; margin: 1rem; cursor: pointer"
+            src="@/assets/logout.svg"
+            @click="logout()"
+            v-on="on"
+          />
+        </template>
+        <span>Logout</span>
+      </v-tooltip>
     </div>
 
     <v-list rounded color="#fafafa">
@@ -19,6 +30,7 @@
 <script>
 import draggable from "vuedraggable";
 import TaskItem from "@/components/TaskItem.vue";
+import router from "../router";
 
 export default {
   components: {
@@ -32,6 +44,10 @@ export default {
           task: event.added.element
         });
       }
+    },
+    logout: function() {
+      document.cookie = `authToken=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;`;
+      router.push({ name: "login" });
     }
   },
   computed: {

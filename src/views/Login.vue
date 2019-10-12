@@ -9,8 +9,10 @@
           <i>Jake Knapp</i>
         </p>
       </div>
+      <v-progress-circular v-if="loading" indeterminate style="align-self: center"></v-progress-circular>
       <v-btn
         class="login-button"
+        v-if="!loading"
         @click="authenticate()"
         color="#e44332"
         style="color: white;"
@@ -48,6 +50,9 @@
 <script>
 import * as uuidv4 from "uuid/v4";
 export default {
+  data: {
+    loading: false
+  },
   methods: {
     authenticate: function() {
       window.location.href = `https://todoist.com/oauth/authorize?client_id=fa66c46a9121421eb22d7911dcedfbcf&scope=data:read_write&state=${uuidv4()}`;
@@ -57,6 +62,7 @@ export default {
     console.log(this.$route.query);
     if (this.$route.query.state && this.$route.query.code) {
       // console.log("setting app state and code");
+      loading = true;
       this.$store.commit("setAppState", this.$route.query.state);
       this.$store.commit("setAppCode", this.$route.query.code);
       this.$store.dispatch("authenticate");
